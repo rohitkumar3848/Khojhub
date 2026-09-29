@@ -21,7 +21,8 @@ public class NotificationService {
     private final SimpMessagingTemplate messagingTemplate;
 
     public void sendNotification(String userId, String title, String message, String type, String linkUrl) {
-        if (userId == null) return;
+        if (userId == null)
+            return;
         try {
             Notification notification = Notification.builder()
                     .userId(userId)
@@ -37,7 +38,8 @@ public class NotificationService {
 
             // Push notification to user's real-time STOMP topic
             try {
-                messagingTemplate.convertAndSend("/topic/notifications/" + userId, NotificationResponse.fromEntity(saved));
+                messagingTemplate.convertAndSend("/topic/notifications/" + userId,
+                        NotificationResponse.fromEntity(saved));
             } catch (Exception wsEx) {
                 log.debug("STOMP notification push skipped or failed: {}", wsEx.getMessage());
             }

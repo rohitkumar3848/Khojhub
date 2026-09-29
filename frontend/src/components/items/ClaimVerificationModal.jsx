@@ -73,7 +73,7 @@ export const ClaimVerificationModal = ({ item, isOpen, onClose }) => {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/60 backdrop-blur-sm animate-fadeIn">
       <div className="bg-white rounded-3xl max-w-lg w-full shadow-2xl border border-slate-200 overflow-hidden flex flex-col max-h-[90vh]">
-        
+
         {/* Header */}
         <div className="px-6 pt-6 pb-4 border-b border-slate-100 flex items-center justify-between">
           <div>
@@ -95,7 +95,7 @@ export const ClaimVerificationModal = ({ item, isOpen, onClose }) => {
 
         {/* Scrollable Form Body */}
         <div className="p-6 overflow-y-auto space-y-5 flex-1">
-          
+
           {/* Item Overview Mini Badge */}
           <div className="bg-amber-50/70 border border-amber-200/80 rounded-xl p-3 flex items-center gap-3">
             <div className="w-12 h-12 rounded-lg bg-amber-200/50 flex items-center justify-center overflow-hidden shrink-0">
@@ -121,11 +121,10 @@ export const ClaimVerificationModal = ({ item, isOpen, onClose }) => {
 
           {/* Success or Failure Result Banner */}
           {result && (
-            <div className={`p-4 rounded-xl text-xs flex items-start gap-3 border ${
-              result.score >= 3
-                ? 'bg-emerald-50 border-emerald-200 text-emerald-800'
-                : 'bg-amber-50 border-amber-200 text-amber-800'
-            }`}>
+            <div className={`p-4 rounded-xl text-xs flex items-start gap-3 border ${result.score >= 3
+              ? 'bg-emerald-50 border-emerald-200 text-emerald-800'
+              : 'bg-amber-50 border-amber-200 text-amber-800'
+              }`}>
               {result.score >= 3 ? (
                 <CheckCircle2 className="w-5 h-5 text-emerald-600 shrink-0 mt-0.5" />
               ) : (

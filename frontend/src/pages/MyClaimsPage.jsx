@@ -106,11 +106,10 @@ export const MyClaimsPage = () => {
                   <div className="space-y-1">
                     <div className="flex items-center gap-2 flex-wrap">
                       <h3 className="font-bold text-slate-900 text-sm">{claim.itemTitle}</h3>
-                      
+
                       {/* Score Badge */}
-                      <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${
-                        claim.score >= 3 ? 'bg-emerald-100 text-emerald-800' : 'bg-rose-100 text-rose-800'
-                      }`}>
+                      <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${claim.score >= 3 ? 'bg-emerald-100 text-emerald-800' : 'bg-rose-100 text-rose-800'
+                        }`}>
                         Score: {claim.score}/5
                       </span>
 

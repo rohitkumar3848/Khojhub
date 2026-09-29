@@ -30,7 +30,8 @@ public class UserResponse {
     private Instant createdAt;
 
     public static UserResponse fromEntity(User user) {
-        if (user == null) return null;
+        if (user == null)
+            return null;
         return UserResponse.builder()
                 .id(user.getId())
                 .fullName(user.getFullName())

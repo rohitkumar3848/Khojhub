@@ -31,154 +31,154 @@ import java.util.stream.Collectors;
 @Slf4j
 public class AdminService {
 
-    private final UserRepository userRepository;
-    private final ItemRepository itemRepository;
-    private final ClaimRepository claimRepository;
-    private final CustodyRecordRepository custodyRecordRepository;
-    private final RewardTransactionRepository rewardRepository;
-    private final NotificationService notificationService;
-    private final AuditLogService auditLogService;
+        private final UserRepository userRepository;
+        private final ItemRepository itemRepository;
+        private final ClaimRepository claimRepository;
+        private final CustodyRecordRepository custodyRecordRepository;
+        private final RewardTransactionRepository rewardRepository;
+        private final NotificationService notificationService;
+        private final AuditLogService auditLogService;
 
-    public DashboardStatsResponse getDashboardStats() {
-        long totalUsers = userRepository.count();
-        long totalLost = itemRepository.countByType(ItemType.LOST);
-        long totalFound = itemRepository.countByType(ItemType.FOUND);
-        long pendingApprovals = itemRepository.countByStatus(ItemStatus.PENDING_ADMIN_APPROVAL);
+        public DashboardStatsResponse getDashboardStats() {
+                long totalUsers = userRepository.count();
+                long totalLost = itemRepository.countByType(ItemType.LOST);
+                long totalFound = itemRepository.countByType(ItemType.FOUND);
+                long pendingApprovals = itemRepository.countByStatus(ItemStatus.PENDING_ADMIN_APPROVAL);
 
-        long activeClaims = claimRepository.countByStatusIn(List.of(
-                ClaimStatus.CHAT_ACTIVE,
-                ClaimStatus.QUIZ_PASSED,
-                ClaimStatus.CONFIRMED_BY_FINDER
-        ));
+                long activeClaims = claimRepository.countByStatusIn(List.of(
+                                ClaimStatus.CHAT_ACTIVE,
+                                ClaimStatus.QUIZ_PASSED,
+                                ClaimStatus.CONFIRMED_BY_FINDER));
 
-        long itemsReturned = itemRepository.countByStatus(ItemStatus.RETURNED);
-        long pendingPickup = claimRepository.countByStatus(ClaimStatus.CONFIRMED_BY_FINDER);
+                long itemsReturned = itemRepository.countByStatus(ItemStatus.RETURNED);
+                long pendingPickup = claimRepository.countByStatus(ClaimStatus.CONFIRMED_BY_FINDER);
 
-        double totalRewards = rewardRepository.findAll().stream()
-                .filter(r -> r.getPaymentStatus() == RewardStatus.SUCCESS)
-                .mapToDouble(RewardTransaction::getTotalAmount)
-                .sum();
+                double totalRewards = rewardRepository.findAll().stream()
+                                .filter(r -> r.getPaymentStatus() == RewardStatus.SUCCESS)
+                                .mapToDouble(RewardTransaction::getTotalAmount)
+                                .sum();
 
-        long totalKarma = userRepository.findAll().stream()
-                .mapToLong(User::getKarmaPoints)
-                .sum();
+                long totalKarma = userRepository.findAll().stream()
+                                .mapToLong(User::getKarmaPoints)
+                                .sum();
 
-        return DashboardStatsResponse.builder()
-                .totalUsers(totalUsers)
-                .totalLostItems(totalLost)
-                .totalFoundItems(totalFound)
-                .pendingApprovals(pendingApprovals)
-                .activeClaims(activeClaims)
-                .itemsReturned(itemsReturned)
-                .pendingPickup(pendingPickup)
-                .totalRewardAmount(totalRewards)
-                .totalKarmaPoints(totalKarma)
-                .build();
-    }
-
-    public List<ItemResponse> getPendingItems() {
-        List<Item> pending = itemRepository.findByStatus(ItemStatus.PENDING_ADMIN_APPROVAL);
-        return pending.stream()
-                .sorted((a, b) -> b.getCreatedAt().compareTo(a.getCreatedAt()))
-                .map(item -> ItemResponse.fromEntity(item, null))
-                .collect(Collectors.toList());
-    }
-
-    public ItemResponse approveItem(String itemId, User adminUser) {
-        Item item = itemRepository.findById(itemId)
-                .orElseThrow(() -> new ResourceNotFoundException("Item not found with id: " + itemId));
-
-        if (item.getStatus() != ItemStatus.PENDING_ADMIN_APPROVAL) {
-            throw new BadRequestException("Item is not in pending approval state. Current status: " + item.getStatus());
+                return DashboardStatsResponse.builder()
+                                .totalUsers(totalUsers)
+                                .totalLostItems(totalLost)
+                                .totalFoundItems(totalFound)
+                                .pendingApprovals(pendingApprovals)
+                                .activeClaims(activeClaims)
+                                .itemsReturned(itemsReturned)
+                                .pendingPickup(pendingPickup)
+                                .totalRewardAmount(totalRewards)
+                                .totalKarmaPoints(totalKarma)
+                                .build();
         }
 
-        item.setStatus(ItemStatus.APPROVED);
-        item.setUpdatedAt(Instant.now());
-        Item saved = itemRepository.save(item);
-
-        // Update custody record
-        custodyRecordRepository.findByItemId(saved.getId()).ifPresent(record -> {
-            record.setReceivedByAdminId(adminUser.getId());
-            record.setReceivedByAdminName(adminUser.getFullName());
-            record.setStatus(CustodyStatus.STORED);
-            record.setUpdatedAt(Instant.now());
-            custodyRecordRepository.save(record);
-        });
-
-        // Notify submitter
-        String targetUserId = saved.getFinderUserId() != null ? saved.getFinderUserId() : saved.getLostOwnerUserId();
-        if (targetUserId != null) {
-            notificationService.sendNotification(
-                    targetUserId,
-                    "Item Approved!",
-                    "Your submission '" + saved.getTitle() + "' has been approved and is now live on KhojHub.",
-                    "ITEM_APPROVED",
-                    "/items/" + saved.getId()
-            );
+        public List<ItemResponse> getPendingItems() {
+                List<Item> pending = itemRepository.findByStatus(ItemStatus.PENDING_ADMIN_APPROVAL);
+                return pending.stream()
+                                .sorted((a, b) -> b.getCreatedAt().compareTo(a.getCreatedAt()))
+                                .map(item -> ItemResponse.fromEntity(item, null))
+                                .collect(Collectors.toList());
         }
 
-        auditLogService.log(
-                adminUser.getId(),
-                adminUser.getEmail(),
-                "ITEM_APPROVED",
-                "ITEM",
-                saved.getId(),
-                "Admin approved item: " + saved.getTitle(),
-                null
-        );
+        public ItemResponse approveItem(String itemId, User adminUser) {
+                Item item = itemRepository.findById(itemId)
+                                .orElseThrow(() -> new ResourceNotFoundException("Item not found with id: " + itemId));
 
-        return ItemResponse.fromEntity(saved, null);
-    }
+                if (item.getStatus() != ItemStatus.PENDING_ADMIN_APPROVAL) {
+                        throw new BadRequestException(
+                                        "Item is not in pending approval state. Current status: " + item.getStatus());
+                }
 
-    public ItemResponse rejectItem(String itemId, String reason, User adminUser) {
-        Item item = itemRepository.findById(itemId)
-                .orElseThrow(() -> new ResourceNotFoundException("Item not found with id: " + itemId));
+                item.setStatus(ItemStatus.APPROVED);
+                item.setUpdatedAt(Instant.now());
+                Item saved = itemRepository.save(item);
 
-        if (item.getStatus() != ItemStatus.PENDING_ADMIN_APPROVAL) {
-            throw new BadRequestException("Only pending items can be rejected.");
+                // Update custody record
+                custodyRecordRepository.findByItemId(saved.getId()).ifPresent(record -> {
+                        record.setReceivedByAdminId(adminUser.getId());
+                        record.setReceivedByAdminName(adminUser.getFullName());
+                        record.setStatus(CustodyStatus.STORED);
+                        record.setUpdatedAt(Instant.now());
+                        custodyRecordRepository.save(record);
+                });
+
+                // Notify submitter
+                String targetUserId = saved.getFinderUserId() != null ? saved.getFinderUserId()
+                                : saved.getLostOwnerUserId();
+                if (targetUserId != null) {
+                        notificationService.sendNotification(
+                                        targetUserId,
+                                        "Item Approved!",
+                                        "Your submission '" + saved.getTitle()
+                                                        + "' has been approved and is now live on KhojHub.",
+                                        "ITEM_APPROVED",
+                                        "/items/" + saved.getId());
+                }
+
+                auditLogService.log(
+                                adminUser.getId(),
+                                adminUser.getEmail(),
+                                "ITEM_APPROVED",
+                                "ITEM",
+                                saved.getId(),
+                                "Admin approved item: " + saved.getTitle(),
+                                null);
+
+                return ItemResponse.fromEntity(saved, null);
         }
 
-        item.setStatus(ItemStatus.REJECTED);
-        item.setRejectionReason(reason != null ? reason : "Submission did not meet community guidelines.");
-        item.setUpdatedAt(Instant.now());
-        Item saved = itemRepository.save(item);
+        public ItemResponse rejectItem(String itemId, String reason, User adminUser) {
+                Item item = itemRepository.findById(itemId)
+                                .orElseThrow(() -> new ResourceNotFoundException("Item not found with id: " + itemId));
 
-        // Notify submitter
-        String targetUserId = saved.getFinderUserId() != null ? saved.getFinderUserId() : saved.getLostOwnerUserId();
-        if (targetUserId != null) {
-            notificationService.sendNotification(
-                    targetUserId,
-                    "Item Submission Rejected",
-                    "Your item submission '" + saved.getTitle() + "' was rejected. Reason: " + saved.getRejectionReason(),
-                    "ITEM_REJECTED",
-                    "/my-posts"
-            );
+                if (item.getStatus() != ItemStatus.PENDING_ADMIN_APPROVAL) {
+                        throw new BadRequestException("Only pending items can be rejected.");
+                }
+
+                item.setStatus(ItemStatus.REJECTED);
+                item.setRejectionReason(reason != null ? reason : "Submission did not meet community guidelines.");
+                item.setUpdatedAt(Instant.now());
+                Item saved = itemRepository.save(item);
+
+                // Notify submitter
+                String targetUserId = saved.getFinderUserId() != null ? saved.getFinderUserId()
+                                : saved.getLostOwnerUserId();
+                if (targetUserId != null) {
+                        notificationService.sendNotification(
+                                        targetUserId,
+                                        "Item Submission Rejected",
+                                        "Your item submission '" + saved.getTitle() + "' was rejected. Reason: "
+                                                        + saved.getRejectionReason(),
+                                        "ITEM_REJECTED",
+                                        "/my-posts");
+                }
+
+                auditLogService.log(
+                                adminUser.getId(),
+                                adminUser.getEmail(),
+                                "ITEM_REJECTED",
+                                "ITEM",
+                                saved.getId(),
+                                "Admin rejected item: " + saved.getTitle() + ". Reason: " + saved.getRejectionReason(),
+                                null);
+
+                return ItemResponse.fromEntity(saved, null);
         }
 
-        auditLogService.log(
-                adminUser.getId(),
-                adminUser.getEmail(),
-                "ITEM_REJECTED",
-                "ITEM",
-                saved.getId(),
-                "Admin rejected item: " + saved.getTitle() + ". Reason: " + saved.getRejectionReason(),
-                null
-        );
+        public List<ItemResponse> getAllItems() {
+                return itemRepository.findAll().stream()
+                                .sorted((a, b) -> b.getCreatedAt().compareTo(a.getCreatedAt()))
+                                .map(item -> ItemResponse.fromEntity(item, null))
+                                .collect(Collectors.toList());
+        }
 
-        return ItemResponse.fromEntity(saved, null);
-    }
-
-    public List<ItemResponse> getAllItems() {
-        return itemRepository.findAll().stream()
-                .sorted((a, b) -> b.getCreatedAt().compareTo(a.getCreatedAt()))
-                .map(item -> ItemResponse.fromEntity(item, null))
-                .collect(Collectors.toList());
-    }
-
-    public List<ItemResponse> getReturnedItems() {
-        return itemRepository.findByStatus(ItemStatus.RETURNED).stream()
-                .sorted((a, b) -> b.getUpdatedAt().compareTo(a.getUpdatedAt()))
-                .map(item -> ItemResponse.fromEntity(item, null))
-                .collect(Collectors.toList());
-    }
+        public List<ItemResponse> getReturnedItems() {
+                return itemRepository.findByStatus(ItemStatus.RETURNED).stream()
+                                .sorted((a, b) -> b.getUpdatedAt().compareTo(a.getUpdatedAt()))
+                                .map(item -> ItemResponse.fromEntity(item, null))
+                                .collect(Collectors.toList());
+        }
 }

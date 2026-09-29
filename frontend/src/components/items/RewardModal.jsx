@@ -50,7 +50,7 @@ export const RewardModal = ({ claim, isOpen, onClose, onRewardProcessed }) => {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/60 backdrop-blur-sm">
       <div className="bg-white rounded-3xl max-w-md w-full shadow-2xl border border-slate-200 overflow-hidden flex flex-col animate-scaleUp">
-        
+
         {/* Header */}
         <div className="px-6 pt-6 pb-4 border-b border-slate-100 flex items-center justify-between">
           <div className="flex items-center gap-2">
@@ -69,7 +69,7 @@ export const RewardModal = ({ claim, isOpen, onClose, onRewardProcessed }) => {
 
         {/* Body */}
         <div className="p-6 space-y-4">
-          
+
           {error && (
             <div className="p-3 rounded-xl bg-rose-50 border border-rose-200 text-rose-700 text-xs">
               {error}
@@ -98,11 +98,10 @@ export const RewardModal = ({ claim, isOpen, onClose, onRewardProcessed }) => {
                         setSelectedAmount(amt);
                         setCustomAmount('');
                       }}
-                      className={`py-2 rounded-xl text-xs font-bold border transition-all ${
-                        selectedAmount === amt && !customAmount
-                          ? 'bg-amber-400 border-amber-500 text-slate-950 shadow-sm'
-                          : 'bg-slate-50 border-slate-200 text-slate-700 hover:bg-slate-100'
-                      }`}
+                      className={`py-2 rounded-xl text-xs font-bold border transition-all ${selectedAmount === amt && !customAmount
+                        ? 'bg-amber-400 border-amber-500 text-slate-950 shadow-sm'
+                        : 'bg-slate-50 border-slate-200 text-slate-700 hover:bg-slate-100'
+                        }`}
                     >
                       ₹{amt}
                     </button>

@@ -71,8 +71,7 @@ public class AdminController {
     @Operation(summary = "Reject an inappropriate or duplicate item submission")
     public ResponseEntity<ApiResponse<ItemResponse>> rejectItem(
             @PathVariable String id,
-            @RequestBody(required = false) ItemRejectionRequest request
-    ) {
+            @RequestBody(required = false) ItemRejectionRequest request) {
         User adminUser = securityUtils.getCurrentUser();
         String reason = request != null ? request.getReason() : null;
         ItemResponse response = adminService.rejectItem(id, reason, adminUser);
@@ -104,8 +103,7 @@ public class AdminController {
     @Operation(summary = "Toggle user status (ACTIVE, SUSPENDED)")
     public ResponseEntity<ApiResponse<UserResponse>> toggleUserStatus(
             @PathVariable String id,
-            @RequestParam String status
-    ) {
+            @RequestParam String status) {
         User adminUser = securityUtils.getCurrentUser();
         UserResponse response = userService.toggleUserStatus(id, status, adminUser.getEmail());
         return ResponseEntity.ok(ApiResponse.ok(response, "User status updated to " + status));
@@ -128,8 +126,7 @@ public class AdminController {
     @GetMapping("/audit-logs")
     @Operation(summary = "Get recent system security and moderation audit logs")
     public ResponseEntity<ApiResponse<List<AuditLogResponse>>> getAuditLogs(
-            @RequestParam(defaultValue = "50") int limit
-    ) {
+            @RequestParam(defaultValue = "50") int limit) {
         List<AuditLogResponse> logs = auditLogService.getRecentLogs(limit);
         return ResponseEntity.ok(ApiResponse.ok(logs, "Audit logs retrieved"));
     }

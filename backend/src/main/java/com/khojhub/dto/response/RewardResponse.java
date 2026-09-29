@@ -32,7 +32,8 @@ public class RewardResponse {
     private Instant createdAt;
 
     public static RewardResponse fromEntity(RewardTransaction r, String claimantName, String finderName) {
-        if (r == null) return null;
+        if (r == null)
+            return null;
         return RewardResponse.builder()
                 .id(r.getId())
                 .claimId(r.getClaimId())

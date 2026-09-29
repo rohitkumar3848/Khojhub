@@ -1,6 +1,4 @@
 {
     "java.compile.nullAnalysis.mode": "automatic",
-    "java.configuration.updateBuildConfiguration": "automatic",
-    "java.import.maven.enabled": true,
-    "maven.pomPath": "pom.xml"
+    "java.configuration.updateBuildConfiguration": "interactive"
 }

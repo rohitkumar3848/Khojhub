@@ -18,7 +18,7 @@ export const ItemCard = ({ item, onClaimClick, onFoundMatchClick }) => {
 
   return (
     <div className="bg-white rounded-2xl border border-slate-200/90 shadow-sm hover:shadow-md hover:border-slate-300 transition-all flex flex-col overflow-hidden group">
-      
+
       {/* Thumbnail and Status Badge */}
       <div className="relative aspect-[16/10] bg-slate-100 overflow-hidden">
         <img
@@ -27,14 +27,13 @@ export const ItemCard = ({ item, onClaimClick, onFoundMatchClick }) => {
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
           onError={(e) => { e.target.src = defaultImage; }}
         />
-        
+
         {/* Type Badge: FOUND vs LOST */}
         <div className="absolute top-3 left-3 flex items-center gap-1.5">
-          <span className={`px-2.5 py-1 rounded-full text-xs font-bold tracking-wide uppercase shadow-sm ${
-            isFound
-              ? 'bg-amber-400 text-slate-950 font-bold border border-amber-300'
-              : 'bg-indigo-600 text-white font-bold border border-indigo-500'
-          }`}>
+          <span className={`px-2.5 py-1 rounded-full text-xs font-bold tracking-wide uppercase shadow-sm ${isFound
+            ? 'bg-amber-400 text-slate-950 font-bold border border-amber-300'
+            : 'bg-indigo-600 text-white font-bold border border-indigo-500'
+            }`}>
             {item.type}
           </span>
           {item.status === 'RETURNED' && (
@@ -78,7 +77,7 @@ export const ItemCard = ({ item, onClaimClick, onFoundMatchClick }) => {
 
         {/* Central Desk & Footer Controls */}
         <div className="mt-4 pt-3 border-t border-slate-100 flex flex-col gap-2.5">
-          
+
           {item.centralDropLocation?.name && (
             <div className="flex items-center gap-1 text-[11px] text-slate-500 bg-slate-50 px-2 py-1 rounded-md">
               <Building2 className="w-3 h-3 text-amber-500 shrink-0" />

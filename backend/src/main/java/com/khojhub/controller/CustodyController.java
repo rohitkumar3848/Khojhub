@@ -42,6 +42,7 @@ public class CustodyController {
     public ResponseEntity<ApiResponse<CustodyResponse>> completeHandover(@Valid @RequestBody HandoverRequest request) {
         User adminUser = securityUtils.getCurrentUser();
         CustodyResponse response = custodyService.completeHandover(request, adminUser);
-        return ResponseEntity.ok(ApiResponse.ok(response, "Item handover completed successfully! Item status marked RETURNED."));
+        return ResponseEntity
+                .ok(ApiResponse.ok(response, "Item handover completed successfully! Item status marked RETURNED."));
     }
 }

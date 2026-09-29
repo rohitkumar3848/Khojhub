@@ -140,14 +140,14 @@ export const ReportFoundPage = () => {
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-8 sm:px-6 lg:px-8 w-full">
-      
+
       {/* Top back button */}
       <Link to="/" className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-500 hover:text-slate-900 mb-4 transition-colors">
         <ArrowLeft className="w-4 h-4" /> Back to Explore
       </Link>
 
       <div className="bg-white rounded-3xl border border-slate-200/90 shadow-sm p-6 sm:p-8">
-        
+
         {/* Title */}
         <div className="border-b border-slate-100 pb-5 mb-6">
           <h1 className="text-2xl font-bold text-slate-900 tracking-tight flex items-center gap-2">
@@ -175,7 +175,7 @@ export const ReportFoundPage = () => {
           </div>
         ) : (
           <form onSubmit={handleSubmit} className="space-y-6">
-            
+
             {/* 1. Item Details */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>

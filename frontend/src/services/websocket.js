@@ -23,7 +23,7 @@ class WebSocketService {
       reconnectDelay: 5000,
       heartbeatIncoming: 4000,
       heartbeatOutgoing: 4000,
-      debug: () => {},
+      debug: () => { },
     });
 
     this.client.onConnect = () => {
@@ -47,7 +47,7 @@ class WebSocketService {
       this.connect(() => {
         this.subscribeToConversation(conversationId, onMessageReceived);
       });
-      return () => {};
+      return () => { };
     }
 
     const destination = `/topic/conversation/${conversationId}`;
@@ -70,7 +70,7 @@ class WebSocketService {
       this.connect(() => {
         this.subscribeToNotifications(userId, onNotificationReceived);
       });
-      return () => {};
+      return () => { };
     }
 
     const destination = `/topic/notifications/${userId}`;

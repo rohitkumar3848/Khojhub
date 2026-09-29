@@ -136,7 +136,7 @@ export const ItemDetailPage = () => {
 
   return (
     <div className="max-w-6xl mx-auto px-4 py-8 sm:px-6 lg:px-8 w-full">
-      
+
       {/* Top back navigation */}
       <Link to="/" className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-500 hover:text-slate-900 mb-6 transition-colors">
         <ArrowLeft className="w-4 h-4" /> Back to Explore
@@ -144,7 +144,7 @@ export const ItemDetailPage = () => {
 
       <div className="bg-white rounded-3xl border border-slate-200/90 shadow-sm overflow-hidden p-6 sm:p-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-          
+
           {/* Left Column: Image Carousel (Screen #3 Mockup) */}
           <div className="lg:col-span-6 space-y-3">
             <div className="aspect-[4/3] rounded-2xl bg-slate-100 overflow-hidden border border-slate-200 shadow-inner">
@@ -163,9 +163,8 @@ export const ItemDetailPage = () => {
                   <button
                     key={idx}
                     onClick={() => setActiveImageIndex(idx)}
-                    className={`w-16 h-16 rounded-xl border-2 overflow-hidden shrink-0 transition-all ${
-                      activeImageIndex === idx ? 'border-amber-500 scale-95 shadow-sm' : 'border-transparent opacity-70 hover:opacity-100'
-                    }`}
+                    className={`w-16 h-16 rounded-xl border-2 overflow-hidden shrink-0 transition-all ${activeImageIndex === idx ? 'border-amber-500 scale-95 shadow-sm' : 'border-transparent opacity-70 hover:opacity-100'
+                      }`}
                   >
                     <img src={img} alt="Thumbnail" className="w-full h-full object-cover" />
                   </button>
@@ -177,14 +176,13 @@ export const ItemDetailPage = () => {
           {/* Right Column: Metadata & Actions */}
           <div className="lg:col-span-6 flex flex-col justify-between space-y-6">
             <div className="space-y-4">
-              
+
               {/* Badges */}
               <div className="flex items-center gap-2 flex-wrap">
-                <span className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider ${
-                  isFound
-                    ? 'bg-amber-400 text-slate-950 border border-amber-300'
-                    : 'bg-indigo-600 text-white border border-indigo-500'
-                }`}>
+                <span className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider ${isFound
+                  ? 'bg-amber-400 text-slate-950 border border-amber-300'
+                  : 'bg-indigo-600 text-white border border-indigo-500'
+                  }`}>
                   {item.type}
                 </span>
 
@@ -240,7 +238,7 @@ export const ItemDetailPage = () => {
 
             {/* ACTION CARD (Matching Screen #3 Mockup) */}
             <div className="pt-6 border-t border-slate-100">
-              
+
               {isFound ? (
                 <div>
                   {item.canClaim ? (

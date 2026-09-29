@@ -33,8 +33,7 @@ public class ClaimController {
     @Operation(summary = "Submit 5-question ownership challenge answers to claim an item")
     public ResponseEntity<ApiResponse<ClaimResponse>> submitClaim(
             @PathVariable String itemId,
-            @Valid @RequestBody ClaimSubmitRequest request
-    ) {
+            @Valid @RequestBody ClaimSubmitRequest request) {
         User currentUser = securityUtils.getCurrentUser();
         ClaimResponse response = claimService.submitClaim(itemId, request, currentUser);
         String msg = response.getScore() >= 3
@@ -81,8 +80,7 @@ public class ClaimController {
     @Operation(summary = "Finder rejects claimant after chat review")
     public ResponseEntity<ApiResponse<ClaimResponse>> rejectClaim(
             @PathVariable String id,
-            @RequestParam(required = false) String reason
-    ) {
+            @RequestParam(required = false) String reason) {
         User currentUser = securityUtils.getCurrentUser();
         ClaimResponse response = claimService.rejectClaim(id, reason, currentUser);
         return ResponseEntity.ok(ApiResponse.ok(response, "Claim rejected by finder"));

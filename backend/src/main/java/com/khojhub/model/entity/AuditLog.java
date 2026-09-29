@@ -26,7 +26,8 @@ public class AuditLog {
     private String actorEmail;
 
     @Indexed
-    private String action; // USER_REGISTERED, USER_LOGIN, ITEM_CREATED, ITEM_APPROVED, ITEM_REJECTED, CLAIM_CREATED, QUIZ_PASSED, etc.
+    private String action; // USER_REGISTERED, USER_LOGIN, ITEM_CREATED, ITEM_APPROVED, ITEM_REJECTED,
+                           // CLAIM_CREATED, QUIZ_PASSED, etc.
 
     @Indexed
     private String entityType; // USER, ITEM, CLAIM, CHAT, CUSTODY, REWARD

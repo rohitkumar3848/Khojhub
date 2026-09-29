@@ -24,7 +24,8 @@ public class NotificationResponse {
     private Instant createdAt;
 
     public static NotificationResponse fromEntity(Notification n) {
-        if (n == null) return null;
+        if (n == null)
+            return null;
         return NotificationResponse.builder()
                 .id(n.getId())
                 .userId(n.getUserId())

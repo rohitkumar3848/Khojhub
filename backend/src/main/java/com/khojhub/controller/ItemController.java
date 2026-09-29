@@ -41,8 +41,7 @@ public class ItemController {
             @RequestParam(required = false) String search,
             @RequestParam(required = false) ItemType type,
             @RequestParam(required = false) ItemCategory category,
-            @RequestParam(required = false) String building
-    ) {
+            @RequestParam(required = false) String building) {
         String currentUserId = securityUtils.getCurrentUserOptional().map(User::getId).orElse(null);
         List<ItemResponse> items = itemService.getPublicItems(search, type, category, building, currentUserId);
         return ResponseEntity.ok(ApiResponse.ok(items, "Items retrieved successfully"));
@@ -58,7 +57,8 @@ public class ItemController {
 
     @PostMapping("/found")
     @Operation(summary = "Report a found item with 5 verification questions and central drop location")
-    public ResponseEntity<ApiResponse<ItemResponse>> reportFoundItem(@Valid @RequestBody FoundItemCreateRequest request) {
+    public ResponseEntity<ApiResponse<ItemResponse>> reportFoundItem(
+            @Valid @RequestBody FoundItemCreateRequest request) {
         User currentUser = securityUtils.getCurrentUser();
         ItemResponse response = itemService.createFoundItem(request, currentUser);
         return ResponseEntity.ok(ApiResponse.ok(response, "Found item submitted for admin approval"));
@@ -76,8 +76,7 @@ public class ItemController {
     @Operation(summary = "Submit a found match response for an existing lost post")
     public ResponseEntity<ApiResponse<ItemResponse>> reportFoundMatch(
             @PathVariable String id,
-            @Valid @RequestBody FoundMatchRequest request
-    ) {
+            @Valid @RequestBody FoundMatchRequest request) {
         User currentUser = securityUtils.getCurrentUser();
         ItemResponse response = itemService.reportFoundMatch(id, request, currentUser);
         return ResponseEntity.ok(ApiResponse.ok(response, "Found report for lost item submitted for admin approval"));

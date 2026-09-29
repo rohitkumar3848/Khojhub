@@ -44,11 +44,14 @@ public class ChatService {
         Item item = itemRepository.findById(itemId).orElse(null);
         String title = item != null ? item.getTitle() : "Item #" + itemId;
         String imageUrl = (item != null && item.getImageUrls() != null && !item.getImageUrls().isEmpty())
-                ? item.getImageUrls().get(0) : null;
+                ? item.getImageUrls().get(0)
+                : null;
 
         List<String> participants = new ArrayList<>();
-        if (finderId != null) participants.add(finderId);
-        if (claimantId != null && !participants.contains(claimantId)) participants.add(claimantId);
+        if (finderId != null)
+            participants.add(finderId);
+        if (claimantId != null && !participants.contains(claimantId))
+            participants.add(claimantId);
 
         ChatConversation conversation = ChatConversation.builder()
                 .itemId(itemId)
@@ -81,7 +84,8 @@ public class ChatService {
                     String otherUserName = userRepository.findById(otherUserId)
                             .map(User::getFullName).orElse("KhojHub User");
 
-                    long unreadCount = messageRepository.countByConversationIdAndSenderIdNotAndIsReadFalse(conv.getId(), userId);
+                    long unreadCount = messageRepository.countByConversationIdAndSenderIdNotAndIsReadFalse(conv.getId(),
+                            userId);
 
                     return ChatConversationResponse.builder()
                             .id(conv.getId())
@@ -165,10 +169,10 @@ public class ChatService {
                 notificationService.sendNotification(
                         participantId,
                         "New Message from " + sender.getFullName(),
-                        savedMessage.getMessage().length() > 50 ? savedMessage.getMessage().substring(0, 47) + "..." : savedMessage.getMessage(),
+                        savedMessage.getMessage().length() > 50 ? savedMessage.getMessage().substring(0, 47) + "..."
+                                : savedMessage.getMessage(),
                         "CHAT_MESSAGE",
-                        "/chats/" + conversationId
-                );
+                        "/chats/" + conversationId);
             }
         }
 

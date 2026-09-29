@@ -143,7 +143,7 @@ export const AdminDashboardPage = () => {
   return (
     <div className="max-w-7xl mx-auto px-4 py-8 sm:px-6 lg:px-8 w-full">
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-        
+
         {/* Left Admin Navigation Sidebar */}
         <div className="lg:col-span-3 space-y-2">
           <div className="bg-slate-900 rounded-2xl p-4 text-white shadow-md">
@@ -156,18 +156,16 @@ export const AdminDashboardPage = () => {
           <div className="bg-white rounded-2xl border border-slate-200 p-2 space-y-1 shadow-sm">
             <button
               onClick={() => setActiveTab('overview')}
-              className={`w-full text-left px-3.5 py-2.5 rounded-xl text-xs font-semibold flex items-center justify-between ${
-                activeTab === 'overview' ? 'bg-amber-400 text-slate-950 font-bold' : 'text-slate-600 hover:bg-slate-100'
-              }`}
+              className={`w-full text-left px-3.5 py-2.5 rounded-xl text-xs font-semibold flex items-center justify-between ${activeTab === 'overview' ? 'bg-amber-400 text-slate-950 font-bold' : 'text-slate-600 hover:bg-slate-100'
+                }`}
             >
               <span className="flex items-center gap-2"><LayoutDashboard className="w-4 h-4" /> Overview</span>
             </button>
 
             <button
               onClick={() => setActiveTab('approvals')}
-              className={`w-full text-left px-3.5 py-2.5 rounded-xl text-xs font-semibold flex items-center justify-between ${
-                activeTab === 'approvals' ? 'bg-amber-400 text-slate-950 font-bold' : 'text-slate-600 hover:bg-slate-100'
-              }`}
+              className={`w-full text-left px-3.5 py-2.5 rounded-xl text-xs font-semibold flex items-center justify-between ${activeTab === 'approvals' ? 'bg-amber-400 text-slate-950 font-bold' : 'text-slate-600 hover:bg-slate-100'
+                }`}
             >
               <span className="flex items-center gap-2"><Clock className="w-4 h-4" /> Pending Approvals</span>
               {stats?.pendingApprovals > 0 && (
@@ -179,36 +177,32 @@ export const AdminDashboardPage = () => {
 
             <button
               onClick={() => setActiveTab('custody')}
-              className={`w-full text-left px-3.5 py-2.5 rounded-xl text-xs font-semibold flex items-center gap-2 ${
-                activeTab === 'custody' ? 'bg-amber-400 text-slate-950 font-bold' : 'text-slate-600 hover:bg-slate-100'
-              }`}
+              className={`w-full text-left px-3.5 py-2.5 rounded-xl text-xs font-semibold flex items-center gap-2 ${activeTab === 'custody' ? 'bg-amber-400 text-slate-950 font-bold' : 'text-slate-600 hover:bg-slate-100'
+                }`}
             >
               <Building2 className="w-4 h-4" /> Custody & Handover
             </button>
 
             <button
               onClick={() => setActiveTab('items')}
-              className={`w-full text-left px-3.5 py-2.5 rounded-xl text-xs font-semibold flex items-center gap-2 ${
-                activeTab === 'items' ? 'bg-amber-400 text-slate-950 font-bold' : 'text-slate-600 hover:bg-slate-100'
-              }`}
+              className={`w-full text-left px-3.5 py-2.5 rounded-xl text-xs font-semibold flex items-center gap-2 ${activeTab === 'items' ? 'bg-amber-400 text-slate-950 font-bold' : 'text-slate-600 hover:bg-slate-100'
+                }`}
             >
               <Package className="w-4 h-4" /> Items & Returned
             </button>
 
             <button
               onClick={() => setActiveTab('users')}
-              className={`w-full text-left px-3.5 py-2.5 rounded-xl text-xs font-semibold flex items-center gap-2 ${
-                activeTab === 'users' ? 'bg-amber-400 text-slate-950 font-bold' : 'text-slate-600 hover:bg-slate-100'
-              }`}
+              className={`w-full text-left px-3.5 py-2.5 rounded-xl text-xs font-semibold flex items-center gap-2 ${activeTab === 'users' ? 'bg-amber-400 text-slate-950 font-bold' : 'text-slate-600 hover:bg-slate-100'
+                }`}
             >
               <Users className="w-4 h-4" /> Users Management
             </button>
 
             <button
               onClick={() => setActiveTab('audit')}
-              className={`w-full text-left px-3.5 py-2.5 rounded-xl text-xs font-semibold flex items-center gap-2 ${
-                activeTab === 'audit' ? 'bg-amber-400 text-slate-950 font-bold' : 'text-slate-600 hover:bg-slate-100'
-              }`}
+              className={`w-full text-left px-3.5 py-2.5 rounded-xl text-xs font-semibold flex items-center gap-2 ${activeTab === 'audit' ? 'bg-amber-400 text-slate-950 font-bold' : 'text-slate-600 hover:bg-slate-100'
+                }`}
             >
               <FileText className="w-4 h-4" /> Audit Logs
             </button>
@@ -217,7 +211,7 @@ export const AdminDashboardPage = () => {
 
         {/* Right Main Content */}
         <div className="lg:col-span-9 space-y-6">
-          
+
           {/* Top 4 Stat Cards (Screen #7 Mockup) */}
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
             <div className="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex items-center gap-3.5">
@@ -344,7 +338,7 @@ export const AdminDashboardPage = () => {
           {/* TAB 2: CUSTODY & DESK HANDOVER (Rule 26, 27) */}
           {activeTab === 'custody' && (
             <div className="space-y-6">
-              
+
               {/* Handover Verification Form */}
               <div className="bg-gradient-to-r from-amber-500/10 via-amber-400/5 to-white p-6 rounded-3xl border border-amber-200/80 shadow-sm space-y-4">
                 <div className="flex items-center gap-2">
@@ -358,9 +352,8 @@ export const AdminDashboardPage = () => {
                 </div>
 
                 {handoverMessage.text && (
-                  <div className={`p-3.5 rounded-xl text-xs flex items-center gap-2 ${
-                    handoverMessage.type === 'success' ? 'bg-emerald-50 text-emerald-800 border border-emerald-200' : 'bg-rose-50 text-rose-800 border border-rose-200'
-                  }`}>
+                  <div className={`p-3.5 rounded-xl text-xs flex items-center gap-2 ${handoverMessage.type === 'success' ? 'bg-emerald-50 text-emerald-800 border border-emerald-200' : 'bg-rose-50 text-rose-800 border border-rose-200'
+                    }`}>
                     {handoverMessage.type === 'success' ? <CheckCircle2 className="w-4 h-4 text-emerald-600" /> : <X className="w-4 h-4 text-rose-600" />}
                     <span>{handoverMessage.text}</span>
                   </div>
@@ -427,9 +420,8 @@ export const AdminDashboardPage = () => {
                           <td className="py-3 px-4 text-slate-600">{r.locationName}</td>
                           <td className="py-3 px-4 font-mono font-bold text-amber-700">{r.pickupReferenceCode || 'Pending Confirmation'}</td>
                           <td className="py-3 px-4">
-                            <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${
-                              r.status === 'HANDED_OVER' ? 'bg-emerald-100 text-emerald-800' : 'bg-blue-100 text-blue-800'
-                            }`}>
+                            <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${r.status === 'HANDED_OVER' ? 'bg-emerald-100 text-emerald-800' : 'bg-blue-100 text-blue-800'
+                              }`}>
                               {r.status}
                             </span>
                           </td>
@@ -450,7 +442,7 @@ export const AdminDashboardPage = () => {
               <div>
                 <h3 className="text-sm font-bold text-slate-900 mb-1">Returned Items History ({returnedItems.length})</h3>
                 <p className="text-xs text-slate-500 mb-4">Complete archival of successfully reunited belongings.</p>
-                
+
                 <div className="space-y-3">
                   {returnedItems.map((item) => (
                     <div key={item.id} className="p-3.5 rounded-2xl bg-emerald-50/50 border border-emerald-200 flex items-center justify-between text-xs">
@@ -494,9 +486,8 @@ export const AdminDashboardPage = () => {
                         <td className="py-3 px-4 text-slate-600">{u.department || '—'}</td>
                         <td className="py-3 px-4 font-bold text-amber-600">{u.karmaPoints} pts</td>
                         <td className="py-3 px-4">
-                          <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${
-                            u.status === 'ACTIVE' ? 'bg-emerald-100 text-emerald-800' : 'bg-rose-100 text-rose-800'
-                          }`}>
+                          <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${u.status === 'ACTIVE' ? 'bg-emerald-100 text-emerald-800' : 'bg-rose-100 text-rose-800'
+                            }`}>
                             {u.status}
                           </span>
                         </td>

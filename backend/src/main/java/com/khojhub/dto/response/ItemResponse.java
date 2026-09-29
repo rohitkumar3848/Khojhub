@@ -57,7 +57,8 @@ public class ItemResponse {
     private Instant updatedAt;
 
     public static ItemResponse fromEntity(Item item, String currentUserId) {
-        if (item == null) return null;
+        if (item == null)
+            return null;
 
         List<PublicQuestionDto> publicQuestions = new ArrayList<>();
         if (item.getVerificationQuestions() != null) {
@@ -70,11 +71,13 @@ public class ItemResponse {
         boolean isLostOwner = currentUserId != null && currentUserId.equals(item.getLostOwnerUserId());
 
         // Can claim logic:
-        // For standard approved FOUND items: non-finder can claim if status is APPROVED or ACTIVE
+        // For standard approved FOUND items: non-finder can claim if status is APPROVED
+        // or ACTIVE
         // For matched lost items: only original lost owner can claim!
         boolean eligibleToClaim = false;
         if (currentUserId != null) {
-            if (item.getType() == ItemType.FOUND && (item.getStatus() == ItemStatus.APPROVED || item.getStatus() == ItemStatus.ACTIVE)) {
+            if (item.getType() == ItemType.FOUND
+                    && (item.getStatus() == ItemStatus.APPROVED || item.getStatus() == ItemStatus.ACTIVE)) {
                 if (!isFinder) {
                     if (item.getOriginalLostItemId() != null) {
                         // Linked to a lost post -> only original lost owner can claim!

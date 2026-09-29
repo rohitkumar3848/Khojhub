@@ -34,7 +34,8 @@ public class CustodyResponse {
     private Instant createdAt;
 
     public static CustodyResponse fromEntity(CustodyRecord record, String itemTitle) {
-        if (record == null) return null;
+        if (record == null)
+            return null;
         return CustodyResponse.builder()
                 .id(record.getId())
                 .itemId(record.getItemId())

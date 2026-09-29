@@ -45,7 +45,8 @@ public class ItemService {
         List<VerificationQuestion> questions = new ArrayList<>();
         int qId = 1;
         for (VerificationQuestionCreateDto dto : request.getVerificationQuestions()) {
-            if (dto.getQuestion() == null || dto.getQuestion().isBlank() || dto.getAnswer() == null || dto.getAnswer().isBlank()) {
+            if (dto.getQuestion() == null || dto.getQuestion().isBlank() || dto.getAnswer() == null
+                    || dto.getAnswer().isBlank()) {
                 throw new BadRequestException("All 5 verification questions and their answers must be non-empty.");
             }
             questions.add(VerificationQuestion.builder()
@@ -75,7 +76,8 @@ public class ItemService {
 
         Item savedItem = itemRepository.save(item);
 
-        // Record initial custody tracker (physical item submitted to central drop location)
+        // Record initial custody tracker (physical item submitted to central drop
+        // location)
         CustodyRecord custodyRecord = CustodyRecord.builder()
                 .itemId(savedItem.getId())
                 .locationName(request.getCentralDropLocation().getName())
@@ -93,8 +95,7 @@ public class ItemService {
                 "ITEM",
                 savedItem.getId(),
                 "Found item reported: " + savedItem.getTitle() + " (Pending Admin Approval)",
-                null
-        );
+                null);
 
         return ItemResponse.fromEntity(savedItem, currentUser.getId());
     }
@@ -125,8 +126,7 @@ public class ItemService {
                 "ITEM",
                 savedItem.getId(),
                 "Lost item reported: " + savedItem.getTitle(),
-                null
-        );
+                null);
 
         return ItemResponse.fromEntity(savedItem, currentUser.getId());
     }
@@ -194,10 +194,10 @@ public class ItemService {
         notificationService.sendNotification(
                 lostItem.getLostOwnerUserId(),
                 "Potential Match Found!",
-                "Someone reported finding an item matching your lost post '" + lostItem.getTitle() + "'. Awaiting admin approval.",
+                "Someone reported finding an item matching your lost post '" + lostItem.getTitle()
+                        + "'. Awaiting admin approval.",
                 "MATCH_FOUND",
-                "/items/" + savedFoundItem.getId()
-        );
+                "/items/" + savedFoundItem.getId());
 
         auditLogService.log(
                 currentUser.getId(),
@@ -206,29 +206,32 @@ public class ItemService {
                 "ITEM",
                 savedFoundItem.getId(),
                 "Found response submitted for lost item #" + lostItemId,
-                null
-        );
+                null);
 
         return ItemResponse.fromEntity(savedFoundItem, currentUser.getId());
     }
 
-    public List<ItemResponse> getPublicItems(String search, ItemType type, ItemCategory category, String building, String currentUserId) {
+    public List<ItemResponse> getPublicItems(String search, ItemType type, ItemCategory category, String building,
+            String currentUserId) {
         List<ItemStatus> publicStatuses = List.of(ItemStatus.APPROVED, ItemStatus.ACTIVE);
         List<Item> items = itemRepository.findByStatusIn(publicStatuses);
 
         return items.stream()
                 .filter(item -> type == null || item.getType() == type)
                 .filter(item -> category == null || item.getCategory() == category)
-                .filter(item -> building == null || building.isBlank() || (item.getLocation() != null && building.equalsIgnoreCase(item.getLocation().getBuilding())))
+                .filter(item -> building == null || building.isBlank()
+                        || (item.getLocation() != null && building.equalsIgnoreCase(item.getLocation().getBuilding())))
                 .filter(item -> {
-                    if (search == null || search.isBlank()) return true;
+                    if (search == null || search.isBlank())
+                        return true;
                     String q = search.toLowerCase();
                     boolean titleMatch = item.getTitle() != null && item.getTitle().toLowerCase().contains(q);
-                    boolean descMatch = item.getDescription() != null && item.getDescription().toLowerCase().contains(q);
-                    boolean locMatch = item.getLocation() != null && (
-                            (item.getLocation().getBuilding() != null && item.getLocation().getBuilding().toLowerCase().contains(q)) ||
-                                    (item.getLocation().getAreaDetails() != null && item.getLocation().getAreaDetails().toLowerCase().contains(q))
-                    );
+                    boolean descMatch = item.getDescription() != null
+                            && item.getDescription().toLowerCase().contains(q);
+                    boolean locMatch = item.getLocation() != null && ((item.getLocation().getBuilding() != null
+                            && item.getLocation().getBuilding().toLowerCase().contains(q)) ||
+                            (item.getLocation().getAreaDetails() != null
+                                    && item.getLocation().getAreaDetails().toLowerCase().contains(q)));
                     return titleMatch || descMatch || locMatch;
                 })
                 .sorted((a, b) -> b.getCreatedAt().compareTo(a.getCreatedAt()))
@@ -255,7 +258,8 @@ public class ItemService {
         Item item = itemRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Item not found with id: " + id));
 
-        boolean isCreator = currentUser.getId().equals(item.getFinderUserId()) || currentUser.getId().equals(item.getLostOwnerUserId());
+        boolean isCreator = currentUser.getId().equals(item.getFinderUserId())
+                || currentUser.getId().equals(item.getLostOwnerUserId());
         if (!isAdmin && !isCreator) {
             throw new ForbiddenException("You are not authorized to delete this item.");
         }
@@ -265,6 +269,7 @@ public class ItemService {
         }
 
         itemRepository.delete(item);
-        auditLogService.log(currentUser.getId(), currentUser.getEmail(), "ITEM_DELETED", "ITEM", id, "Item deleted: " + item.getTitle(), null);
+        auditLogService.log(currentUser.getId(), currentUser.getEmail(), "ITEM_DELETED", "ITEM", id,
+                "Item deleted: " + item.getTitle(), null);
     }
 }

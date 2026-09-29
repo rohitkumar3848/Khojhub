@@ -166,7 +166,7 @@ export const ChatPage = () => {
   return (
     <div className="max-w-7xl mx-auto px-4 py-6 sm:px-6 lg:px-8 w-full flex-1 flex flex-col">
       <div className="bg-white rounded-3xl border border-slate-200/90 shadow-sm flex-1 flex flex-col md:flex-row overflow-hidden min-h-[680px]">
-        
+
         {/* LEFT COLUMN: Conversations List (Screen #5 Mockup) */}
         <div className={`w-full md:w-80 lg:w-96 border-r border-slate-200 flex flex-col bg-slate-50/50 ${activeConvId ? 'hidden md:flex' : 'flex'}`}>
           <div className="p-4 border-b border-slate-200 bg-white">
@@ -201,9 +201,8 @@ export const ChatPage = () => {
                     setActiveConvId(conv.id);
                     navigate(`/chats/${conv.id}`);
                   }}
-                  className={`w-full p-3.5 text-left flex items-center gap-3 transition-colors ${
-                    isSelected ? 'bg-amber-500/10 border-l-4 border-amber-500' : 'hover:bg-slate-100/70 bg-white'
-                  }`}
+                  className={`w-full p-3.5 text-left flex items-center gap-3 transition-colors ${isSelected ? 'bg-amber-500/10 border-l-4 border-amber-500' : 'hover:bg-slate-100/70 bg-white'
+                    }`}
                 >
                   <div className="w-12 h-12 rounded-xl bg-slate-100 overflow-hidden shrink-0 border border-slate-200">
                     <img src={img} alt={conv.itemTitle} className="w-full h-full object-cover" />
@@ -322,11 +321,10 @@ export const ChatPage = () => {
                         {isMe ? 'You' : msg.senderName} • {timeStr}
                       </span>
                       <div
-                        className={`max-w-md px-4 py-2.5 rounded-2xl text-xs leading-relaxed shadow-sm ${
-                          isMe
+                        className={`max-w-md px-4 py-2.5 rounded-2xl text-xs leading-relaxed shadow-sm ${isMe
                             ? 'bg-amber-400 text-slate-950 font-medium rounded-tr-none'
                             : 'bg-white border border-slate-200 text-slate-800 rounded-tl-none'
-                        }`}
+                          }`}
                       >
                         {msg.message}
                       </div>
