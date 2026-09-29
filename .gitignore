@@ -16,8 +16,8 @@ frontend/.env.local
 
 # IDE and OS
 .idea/
-*.iml
-.vscode/
+.vscode/*
+!.vscode/settings.json
 .DS_Store
 Thumbs.db
 
