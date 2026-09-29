@@ -1,0 +1,24 @@
+{
+  "name": "khojhub-monorepo",
+  "version": "1.0.0",
+  "description": "KhojHub — Campus & Office Lost and Found Platform",
+  "scripts": {
+    "dev": "concurrently -n \"BACKEND,FRONTEND\" -c \"blue,yellow\" \"npm run dev:backend\" \"npm run dev:frontend\"",
+    "dev:backend": "cd backend && mvn spring-boot:run",
+    "dev:frontend": "cd frontend && npm run dev",
+    "build": "concurrently \"cd backend && mvn clean package -DskipTests\" \"cd frontend && npm run build\"",
+    "install:all": "npm install && cd frontend && npm install"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  },
+  "keywords": [
+    "lost-and-found",
+    "spring-boot",
+    "react",
+    "mongodb",
+    "khojhub"
+  ],
+  "author": "Rohit Kumar",
+  "license": "MIT"
+}
